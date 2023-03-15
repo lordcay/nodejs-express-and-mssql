@@ -2,12 +2,18 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const morgan = require("morgan");
 
 const errorHandler = require('_middleware/error-handler');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+// Dev logging middleware
+if (process.env.NODE_ENV === "production") {
+    app.use(morgan("dev"));
+  }
 
 // api routes
 app.use('/users', require('./users/users.controller'));
